@@ -13,7 +13,6 @@ define("port", default=SERVER_PORT, help="run on the given port", type=int)
 
 
 def main():
-    ModelFactory.prepare_model()
     logging.config.dictConfig(LOGGING)
     tornado.options.parse_command_line()
     http_server = tornado.httpserver.HTTPServer(application)

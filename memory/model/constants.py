@@ -29,7 +29,7 @@ MODEL_GROUP = [
     },
     {
         'name': "fourth",
-        'pool_group': ["root.datascience", "root.default"]
+        'pool_group': ["root.datascience", "root.default", "root.gdp-personal"]
     },
     {
         'name': "fifth",
