@@ -39,8 +39,10 @@ class ImpalaWrapper:
         except Exception as err:
             logging.warning(err)
             raise ImpalaQueryError(message=str(err))
-
-        for line in cursor:
-            yield line[0]
+        else:
+            for line in cursor:
+                yield line[0]
+        finally:
+            cursor.close()
 
 

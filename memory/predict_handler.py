@@ -9,6 +9,8 @@ from .response import PredictSuccessResponse
 from .util import json_validate
 from .base_handler import BaseHandler
 from .settings import ImpalaConstants
+from concurrent.futures import ThreadPoolExecutor
+from tornado.concurrent import run_on_executor
 
 MEMORY_PREDICT = {
     'type': 'object',
@@ -28,6 +30,8 @@ MEMORY_PREDICT = {
 
 
 class MemoryPredictHandler(BaseHandler):
+    executor = ThreadPoolExecutor(8)
+
     """
     @api {post} /impala/memory/predict 预测内存
     @apiName MemoryPredict
@@ -61,7 +65,7 @@ class MemoryPredictHandler(BaseHandler):
         db = self.data.get('db')
         pool = self.data.get('pool', 'default')
         try:
-            explain_result = ImpalaWrapper(database=db, sql=sql).explain()
+            explain_result = yield self.get_explain_result(db, sql) 
             features = get_features(explain_result, ImpalaConstants.VERSION)
             model = get_model(pool)
             result = predict(model, features)
@@ -75,3 +79,7 @@ class MemoryPredictHandler(BaseHandler):
         else:
             self.write(PredictSuccessResponse(result).get_response())
 
+
+    @run_on_executor
+    def get_explain_result(self, db, sql):
+        return ImpalaWrapper(database=db, sql=sql).explain()
