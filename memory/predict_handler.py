@@ -64,6 +64,7 @@ class MemoryPredictHandler(BaseHandler):
         sql = self.data.get('sql')
         db = self.data.get('db')
         pool = self.data.get('pool', 'default')
+        pool = "root." + pool if not pool.startswith("root") else pool
         try:
             explain_result = yield self.get_explain_result(db, sql) 
             features = get_features(explain_result, ImpalaConstants.VERSION)

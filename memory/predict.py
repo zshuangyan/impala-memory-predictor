@@ -21,4 +21,4 @@ def get_model(pool):
 def predict(m, features):
     label = m.clf.predict([[features.get(f) for f in m.features]])
     mem = label_to_mem(label, m.class_predict)
-    return mem
+    return int(mem)
