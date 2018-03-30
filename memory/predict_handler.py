@@ -30,7 +30,7 @@ MEMORY_PREDICT = {
 
 
 class MemoryPredictHandler(BaseHandler):
-    executor = ThreadPoolExecutor(8)
+    executor = ThreadPoolExecutor()
 
     """
     @api {post} /impala/memory/predict 预测内存
@@ -79,7 +79,6 @@ class MemoryPredictHandler(BaseHandler):
                             error_message=unknown_err.get_error_body())
         else:
             self.write(PredictSuccessResponse(result).get_response())
-
 
     @run_on_executor
     def get_explain_result(self, db, sql):
