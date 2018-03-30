@@ -50,7 +50,5 @@ class ImpalaWrapper:
         else:
             for line in cursor:
                 yield line[0]
-        finally:
-            cursor.close()
 
 
