@@ -6,7 +6,7 @@ from tornado.options import define, options
 
 from .application import application
 from .settings import LOGGING, NEED_CERTIFICATE, SERVER_PORT
-from .util import refresh_certification, safety_certification, ModelFactory
+from .util import refresh_certification, safety_certification
 
 
 define("port", default=SERVER_PORT, help="run on the given port", type=int)

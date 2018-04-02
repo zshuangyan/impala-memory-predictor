@@ -1,7 +1,6 @@
 import logging
 
 from impala.dbapi import connect
-from functools import lru_cache
 from .settings import ImpalaConstants
 from .error import ImpalaConnectError, ImpalaQueryError
 
@@ -17,28 +16,20 @@ class ImpalaWrapper:
         self.sql = "explain %s" % sql
         self.auth_required = auth_required
 
-    @lru_cache(maxsize=2)
     def cursor(self):
         if self.auth_required:
             auth_mechanism = 'GSSAPI'
         else:
             auth_mechanism = 'NOSASL'
-        cursor = connect(self.host, self.port,
-                         auth_mechanism=auth_mechanism).cursor()
         try:
-            cursor.execute("use %s" % self.database)
-            cursor.execute("set explain_level=2")
-        except Exception as err:
-            logging.warning(err)
-            raise ImpalaQueryError(message=str(err))
-        return cursor
-
-    def explain(self):
-        try:
-            cursor = self.cursor()
+            return connect(self.host, self.port,
+                       auth_mechanism=auth_mechanism).cursor()
         except Exception as err:
             logging.error(err)
             raise ImpalaConnectError(message=str(err))
+
+    def explain(self):
+        cursor = self.cursor()
 
         try:
             cursor.execute("use %s" % self.database)
@@ -50,5 +41,7 @@ class ImpalaWrapper:
         else:
             for line in cursor:
                 yield line[0]
+        finally:
+            cursor.close()
 
 
