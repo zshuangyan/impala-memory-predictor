@@ -1,11 +1,11 @@
 import os
 from ..settings import (DATE_FORMAT, VERSION, KEYTAB_PATH, PRINCIPAL,
-                        MODEL_SERVER_PORT, ImpalaConstants)
+                        MODEL_SERVER_PORT, ImpalaConstants, NEED_CERTIFICATE)
 from .log_settings import LOGGING
 
 __all__ = ["VERSION", "KEYTAB_PATH", "PRINCIPAL", "DATE_FORMAT", "BASE_PATH",
            "MODEL_DIR", "FEATURE_FILE", "RESULT_FILE", "HDFS", "SparkSubmit",
-           "LOGGING", "MODEL_SERVER_PORT", "IMPALA_VERSION"]
+           "LOGGING", "MODEL_SERVER_PORT", "IMPALA_VERSION", "NEED_CERTIFICATE"]
 
 BASE_PATH = os.path.dirname(__file__)
 MODEL_DIR = os.path.join(BASE_PATH, "model_dir")

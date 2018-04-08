@@ -1,11 +1,13 @@
 from hdfs.ext.kerberos import KerberosClient
+from hdfs.client import Client
 from krbcontext import krbcontext
 import shutil
 import os
 import logging
 import subprocess
 
-from ..settings import KEYTAB_PATH, PRINCIPAL, HDFS, SparkSubmit, IMPALA_VERSION
+from ..settings import (KEYTAB_PATH, PRINCIPAL, HDFS, SparkSubmit,
+                        IMPALA_VERSION, NEED_CERTIFICATE)
 
 
 __all__ = ["HDFSClient", "SparkClient"]
@@ -14,12 +16,25 @@ __all__ = ["HDFSClient", "SparkClient"]
 class HDFSClient:
     """using Kerberos authentication for downloading feature data"""
     @staticmethod
-    def generate_temp_files():
-        with krbcontext(using_keytab=True, keytab_file=KEYTAB_PATH,
-                        principal=PRINCIPAL):
+    def generate_temp_files(need_certificate=NEED_CERTIFICATE):
+        if need_certificate:
+            with krbcontext(using_keytab=True, keytab_file=KEYTAB_PATH,
+                            principal=PRINCIPAL):
+                for node in HDFS.NODES:
+                    try:
+                        hdfs_client = KerberosClient(node)
+                        hdfs_client.download(HDFS.REMOTE_PATH, HDFS.LOCAL_PATH,
+                                             n_threads=HDFS.THREAD_NUM)
+                    except Exception as err:
+                        logging.info(err)
+                    else:
+                        return
+                logging.error("Failed to download remote HDFS file.")
+                raise Exception("Failed to download remote HDFS file.")
+        else:
             for node in HDFS.NODES:
                 try:
-                    hdfs_client = KerberosClient(node)
+                    hdfs_client = Client(node)
                     hdfs_client.download(HDFS.REMOTE_PATH, HDFS.LOCAL_PATH,
                                          n_threads=HDFS.THREAD_NUM)
                 except Exception as err:

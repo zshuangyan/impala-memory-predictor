@@ -14,7 +14,6 @@ PRINCIPAL = "dataengineering"
 
 
 class ImpalaConstants:
-    AUTH_REQUIRED = True
     HOST = 'gs-server-1000'
     PORT = 21050
     USER = 'dataengineering'
