@@ -1,16 +1,18 @@
 from tornado import gen
 from http import HTTPStatus
+from concurrent.futures import ThreadPoolExecutor
+from tornado.concurrent import run_on_executor
+import logging
 
 from .predict import get_model_name, predict
-from .error import ErrorCode, MemError, UnKnownError
+from .error import ErrorCode, MemError, UnKnownError, ModelFileNotFoundError
 from .feature import get_features
 from .impala_client import ImpalaWrapper
 from .response import PredictSuccessResponse
 from .util import json_validate
 from .base_handler import BaseHandler
 from .settings import ImpalaConstants
-from concurrent.futures import ThreadPoolExecutor
-from tornado.concurrent import run_on_executor
+
 
 MEMORY_PREDICT = {
     'type': 'object',
@@ -70,6 +72,9 @@ class MemoryPredictHandler(BaseHandler):
             features = get_features(explain_result, ImpalaConstants.VERSION)
             model_name = get_model_name(pool)
             model = self.application.models.get(model_name)
+            if not model:
+                logging.error("Model %s not exists" % model)
+                raise ModelFileNotFoundError("Model %s not exists" % model)
             result = predict(model, features)
         except MemError as err:
             self.send_error(status_code=err.status_code,

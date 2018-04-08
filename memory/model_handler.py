@@ -2,29 +2,40 @@ from tornado import gen
 from datetime import datetime
 from tornado.escape import json_decode
 from json import JSONDecodeError
+from concurrent.futures import ProcessPoolExecutor
+import os
+import shutil
 import logging
 
 from .base_handler import BaseHandler
 from .error import ParameterError, ErrorCode
 from .response import ModelBuildResponse, ModelStatusResponse
 from .settings import DATE_FORMAT
-from .constants import ModelStatus, MODEL_STATUS
-from .redis_client import RedisClient
-from .model_client import ModelClient
+from .constants import ModelStatus
+from .model.task import Task
+from .model.settings import MODEL_DIR
 
 
 def validate(date):
     datetime.strptime(str(date), DATE_FORMAT)
 
 
+def submit_model_task(**kwargs):
+    start_day = kwargs.get("start_day")
+    end_day = kwargs.get("end_day")
+    generate_feature = kwargs.get("generate_feature", True)
+    cross_validate = kwargs.get("cross_validate", True)
+    Task(start_day, end_day).run(generate_feature, cross_validate)
+
+
 class ModelBaseHandler(BaseHandler):
     @property
     def model_status(self):
-        return RedisClient.get(MODEL_STATUS)
+        return self.application.model_status
 
     @model_status.setter
     def model_status(self, value):
-        RedisClient.set(MODEL_STATUS, value)
+        self.application.model_status = value
 
 
 class ModelBuildHandler(ModelBaseHandler):
@@ -77,10 +88,17 @@ class ModelBuildHandler(ModelBaseHandler):
                        message="Start building models").get_response())
             self.finish()
             try:
-                ModelClient.submit_model_build(self.data)
+                executor = ProcessPoolExecutor(max_workers=1)
+                yield executor.submit(submit_model_task, **self.data)
+                for file in os.listdir(MODEL_DIR):
+                    if file.endswith(".tmp"):
+                        shutil.move(os.path.join(MODEL_DIR, file),
+                                    os.path.join(MODEL_DIR, file[:-4]))
             except Exception as err:
                 logging.exception(err)
                 self.model_status = ModelStatus.FAILED
+            else:
+                self.model_status = ModelStatus.FINISHED
 
 
 class ModelStatusHandler(ModelBaseHandler):

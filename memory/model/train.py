@@ -75,7 +75,7 @@ class Model:
         # create model dir if not exist
         if not os.path.exists(settings.MODEL_DIR):
             os.mkdir(settings.MODEL_DIR)
-        joblib.dump(self, self.path)
+        joblib.dump(self, self.path + ".tmp")
 
     def validate(self, data_set):
         if self.pool_group:

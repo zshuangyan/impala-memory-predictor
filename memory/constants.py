@@ -1,5 +1,4 @@
 from enum import IntEnum
-MODEL_STATUS = "model_status"
 
 
 class ModelStatus(IntEnum):

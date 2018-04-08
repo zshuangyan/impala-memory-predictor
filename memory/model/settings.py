@@ -1,7 +1,6 @@
 import os
-from ..settings import (DATE_FORMAT, VERSION, KEYTAB_PATH, PRINCIPAL,
+from ..settings import (DATE_FORMAT, VERSION, KEYTAB_PATH, PRINCIPAL, LOGGING,
                         MODEL_SERVER_PORT, ImpalaConstants, NEED_CERTIFICATE)
-from .log_settings import LOGGING
 
 __all__ = ["VERSION", "KEYTAB_PATH", "PRINCIPAL", "DATE_FORMAT", "BASE_PATH",
            "MODEL_DIR", "FEATURE_FILE", "RESULT_FILE", "HDFS", "SparkSubmit",
