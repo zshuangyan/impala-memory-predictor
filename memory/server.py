@@ -2,11 +2,14 @@ import logging.config
 import tornado.httpserver
 import tornado.ioloop
 import tornado.options
+import tornado.autoreload
 from tornado.options import define, options
+import os
 
-from .application import application
-from .settings import LOGGING, NEED_CERTIFICATE, SERVER_PORT
-from .util import refresh_certification, safety_certification
+from memory.application import application
+from memory.settings import LOGGING, NEED_CERTIFICATE, SERVER_PORT
+from memory.util import refresh_certification, safety_certification
+from memory.model.settings import MODEL_DIR
 
 
 define("port", default=SERVER_PORT, help="run on the given port", type=int)
@@ -27,6 +30,11 @@ def main():
         tornado.ioloop.PeriodicCallback(refresh_certification, 1000 * 3600).start()
         # refresh every five days
         tornado.ioloop.PeriodicCallback(safety_certification, 1000 * 3600 * 24 * 5).start()
+
+    tornado.autoreload.start()
+
+    for model_name in os.listdir(MODEL_DIR):
+        tornado.autoreload.watch(os.path.join(MODEL_DIR, model_name))
 
     tornado.ioloop.IOLoop.current().start()
 

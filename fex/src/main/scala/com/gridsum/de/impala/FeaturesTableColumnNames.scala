@@ -7,7 +7,6 @@ object FeaturesTableColumnNames {
   val User = "user"
   val Day = "day"
   val SetMem = "setMemMB"
-  val EstiMem = "estiMemMB"
   val UsedMemInMB = "useMemMB"
   val maxLayer = "mLayer"
   val maxFiles = "mFiles"

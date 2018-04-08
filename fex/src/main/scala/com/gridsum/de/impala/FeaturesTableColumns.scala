@@ -9,7 +9,6 @@ object FeaturesTableColumns {
     val queryDetailColumns = col(TmpColumnNames.QueryDetailColumns)
     List(
       queryDetailColumns.getItem(FeaturesTableColumnNames.SetMem).as(FeaturesTableColumnNames.SetMem),
-      queryDetailColumns.getItem(FeaturesTableColumnNames.EstiMem).as(FeaturesTableColumnNames.EstiMem),
       queryDetailColumns.getItem(FeaturesTableColumnNames.maxLayer).as(FeaturesTableColumnNames.maxLayer),
       queryDetailColumns.getItem(FeaturesTableColumnNames.maxFiles).as(FeaturesTableColumnNames.maxFiles),
       queryDetailColumns.getItem(FeaturesTableColumnNames.maxSize).as(FeaturesTableColumnNames.maxSize),

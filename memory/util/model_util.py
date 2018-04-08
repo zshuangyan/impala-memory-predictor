@@ -1,4 +1,3 @@
-from functools import lru_cache
 from sklearn.externals import joblib
 import os
 import logging
@@ -10,21 +9,15 @@ def load_model(model_path):
     return joblib.load(model_path)
 
 
-@lru_cache(maxsize=2)
-def get_model(model_path):
-    return load_model(model_path)
-
-
 class ModelFactory:
     @staticmethod
-    def get_model(model_name, use_cache=True):
+    def get_model(model_name):
         model_path = os.path.join(MODEL_DIR, model_name)
-        if use_cache:
-            return get_model(model_path)
-        else:
-            return load_model(model_path)
+        return load_model(model_path)
 
     @staticmethod
     def prepare_model():
+        model_dict = {}
         for model_name in os.listdir(MODEL_DIR):
-            ModelFactory.get_model(model_name)
+            model_dict[model_name] = ModelFactory.get_model(model_name)
+        return model_dict

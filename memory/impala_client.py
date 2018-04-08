@@ -23,7 +23,7 @@ class ImpalaWrapper:
             auth_mechanism = 'NOSASL'
         try:
             return connect(self.host, self.port,
-                       auth_mechanism=auth_mechanism).cursor()
+                           auth_mechanism=auth_mechanism).cursor()
         except Exception as err:
             logging.error(err)
             raise ImpalaConnectError(message=str(err))

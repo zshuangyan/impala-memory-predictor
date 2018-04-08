@@ -5,7 +5,7 @@ from .log_settings import LOGGING
 __all__ = ["VERSION", "DATE_FORMAT", "NEED_CERTIFICATE", "KEYTAB_PATH",
            "PRINCIPAL", "ImpalaConstants", "RedisConstants",
            "MODEL_SERVER_PORT", "LOGGING"]
-VERSION = "1.0"
+VERSION = "v1"
 DATE_FORMAT = "%Y%m%d"
 NEED_CERTIFICATE = True
 

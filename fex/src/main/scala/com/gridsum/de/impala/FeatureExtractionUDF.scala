@@ -8,24 +8,16 @@ import scala.math.{pow, round}
 
 
 object FeatureExtractionUDF {
-  val queryDetailSep = "--------------------------------------------"
-  val explainSep = "----------------"
+  val queryDetailSep = "------------------------------------------------------------------------------------------------------"
+  val explainSep = "Query Options"
   val filesPattern = "files=(\\d+)".r
   val sizePattern = "size=([\\d.]*)(.*)".r
   val hostsPattern = "hosts=(\\d+)".r
-  val estiMemPattern = "Resource Estimates: Memory=([\\d.]*)(.*)".r
   val setMemPattern = " MEM_LIMIT=([\\d.]*)".r
 
   val units = Map("PB" -> pow(1024, 3), "TB" -> pow(1024, 2),
     "GB" -> pow(1024, 1), "MB" -> pow(1024, 0),
     "KB" -> pow(1024, -1), "B" -> pow(1024, -2))
-
-  def getEstiMem(queryDetail: String): Int = {
-    val estiMemMB = estiMemPattern.findFirstIn(queryDetail).map {
-      case (estiMemPattern(num, unit)) => (num.toDouble * units(unit)).toInt
-    }.getOrElse(0)
-    estiMemMB
-  }
 
   def getSetMem(queryDetail: String): Int = {
     val setMemMB = setMemPattern.findFirstIn(queryDetail).map {
@@ -36,11 +28,11 @@ object FeatureExtractionUDF {
 
   def getFeatures(queryDetail: String, impalaVersion: String): Map[String, Int] = {
     //获取explain内容
-    val explainStr = queryDetail.split(explainSep)(1)
+    val explainStr = queryDetail.split(explainSep).drop(1).mkString
     val explainLines = explainStr.split("\n")
 
     //过滤出explain中每一小段落的开头行，例如06:TOP-N [LIMIT=10]
-    val explainSummary = explainLines.filter(line => line.contains(":") &&
+    val explainSummary = explainLines.filter(line => line.contains(":") && (line.split(":").length > 1) &&
       line.split(":")(1).head <= 'Z' && line.split(":")(1).head >= 'A')
 
     //过滤出explain中包含浏览的文件数目和文件大小的信息
@@ -172,7 +164,6 @@ object FeatureExtractionUDF {
 
   def getFeatureColumnsFromQueryDetail(impalaVersion:String): UserDefinedFunction = udf((queryDetailInfo: String) => {
     val queryDetail = queryDetailInfo.split(queryDetailSep)(0)
-    Map(FeaturesTableColumnNames.SetMem -> getSetMem(queryDetail),
-      FeaturesTableColumnNames.EstiMem -> getEstiMem(queryDetail)) ++ getFeatures(queryDetail, impalaVersion)
+    Map(FeaturesTableColumnNames.SetMem -> getSetMem(queryDetail)) ++ getFeatures(queryDetail, impalaVersion)
   })
 }
