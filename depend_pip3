@@ -20,7 +20,6 @@ pycparser==2.18
 pykerberos==1.2.1
 python-dateutil==2.7.0
 pytz==2018.3
-redis==2.10.6
 requests==2.18.4
 requests-kerberos==0.11.0
 sasl==0.2.1
