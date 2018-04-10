@@ -38,6 +38,15 @@ login remote server to create the directory for holding feature data
 ssh username@remoteip
 hadoop fs -mkdir iml-predictor/feature
 ```
+before building models, run spark.sh on spark node with parameters start_day and end_day in format '%Y%m%d', for example:
+```
+./spark.sh 20180312 20180318
+```
+
+start IML-Predictor application
+```
+python -m memory.server
+```
 
 # 3. Tutorials & Documentation
 
