@@ -76,3 +76,7 @@ trainning and validating ratio when cross-validating, range from (0,1)
 #### MEMORY_PREDICT_RATIO
 To improve accuray, we return the predicted memory getting from the predicted category memory boundary   
 and memory boundary of the category next to it, range from [0,1]
+
+#### MODEL_GROUP
+if you only need one model, you can set MODEL_GROUP=[{'name': "first"}]
+if you want to separate model by pools, then add 'pool_group' key for each model.
