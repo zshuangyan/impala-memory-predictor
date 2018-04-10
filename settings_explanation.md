@@ -20,3 +20,59 @@ IML-Predictor is a web application, which need a port number
 - User: Your Impala Username
 - Version: Imapala version
 
+## memory/model/settings.py
+
+#### MODEL_DIR
+Use mkdir command to create a directory to save your models and put its path to MODEL_DIR  
+
+#### FEATURE_FILE
+file to hold all the trainning data, you can leave it as it is  
+
+#### RESULT_FILE
+file to record cross-validation accuracy result, you can leave it as it is 
+
+#### HDFS
+- FILE_PATTERN: HDFS's file name pattern, leave it as it is
+- THREAD_NUM: when downloading hdfs files, how many threads you need
+- LOCAL_PATH: local path for saving hdfs files, leave it as it is
+- REMOTE_PATH: remote hdfs file path, which is a parameter for [spark application](./fex)
+- NODES: HDFS proxy nodes address
+
+#### SparkSubmit
+- LOCAL: if you can run sparksubmit in current server, set LOCAL=True
+- PREFIX: leave it as it is
+- APP: [spark application](.fex) jar name
+ 
+
+#### SparkSubmit.SPARK_SUBMIT_PARAMS
+- class: leave it as it is
+- master: spark-submit's parameter
+- driver-memory: spark-submit's parameter
+- executor-memory: spark-submit's parameter
+- num-executors: spark-submit's parameter
+- executor-cores: spark-submit's parameter
+
+
+#### FEATURE_NUM
+how many features your models need, which should not beyond numbers of all features set in memory/model/constants.py  
+and larger than 6 according to internal mechanism  
+
+#### COLUMNS_CLEAN_FUNC
+a dict with feature's name as key, the function you want to apply on that feature as value,
+you can define the function as you like or use python built-in functions
+
+#### MEMORY_SPLIT
+our machine-learning use multi-classification, you need a list of memory boundaries to label the samples
+
+#### CLASS_NUM
+how many categories you want to label the sample
+
+#### ACCURACY_SPLIT
+memory boudaries for getting accuracy result from cross-validating
+
+#### CROSS_VALIDATE_RATIO
+trainning and validating ratio when cross-validating, range from (0,1)
+
+#### MEMORY_PREDICT_RATIO
+To improve accuray, we return the predicted memory getting from the predicted category memory boundary   
+and memory boundary of the category next to it, range from [0,1]
