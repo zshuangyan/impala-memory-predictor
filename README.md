@@ -1,6 +1,6 @@
 # 1. Brief
 IML-Predictor is a tool for predicting how much memory an impala query will use based on Supervisored learning.
-We collect a certain amount of impala queries and their executing info as samples, extract features and label
+We collect certain amount of impala queries and their executing info as samples, extract features and label
 them as data for trainning models, which is used to predict memory for new comming impala queries.
 
 # 2. Installation
@@ -50,11 +50,8 @@ python -m memory.server
 
 # 3. Tutorials & Documentation
 
-## 3.1. Principle
-The scheduling principle is mainly as follows:
- - First, crawls a certain period of time historical query information from cloudera manager.
- - Then, generates a memory resource allocation plan for each pool according to scheduler config, impala config and historical query information.
- - Finally, executes the memory resource allocation plan by modifying the impala config through cloudera manager.
+## 3.1. Internal Mechanism
+
 
 ## 3.2. Default scheduling strategy (priority schedule)
  - [code](./scheduler/priority_schedule.py)
