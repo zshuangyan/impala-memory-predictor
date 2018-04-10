@@ -1,3 +1,70 @@
+# 1. Brief
+IML-Predictor is a tool for predicting how much memory an impala query will use based on Supervisored learning.
+We collect a certain amount of impala queries and their executing info as samples, extract features and label
+them as data for trainning models, which is used to predict memory for new comming impala queries.
+
+# 2. Installation
+## 2.1. Dependencies
+ - Impala: 2.9.0-cdh5.12.1 or 2.5.0-cdh5.7.2
+ - python3
+ - scala
+
+## 2.2. Install
+```
+git clone git@gitlab.gridsum.com:data-engineering/impala-toolbox/iml-predictor.git
+cd iml-predictor
+sudo apt-get -y install --no-install-recommends \`cat depend_ubuntu\`
+python3 -m pip install -r depend_pip3
+```
+
+## 2.3. Edit config of scheduler
+ - you must edit the config of `cloudera manager` and `pool` in [the config file](./conf/scheduler.yml)
+
+## 2.4. Start/Stop scheduler daemon
+ - start daemon: `./bin/scheduler_daemon.sh start`
+ - stop daemon: `./bin/scheduler_daemon.sh stop`
+
+# 3. Tutorials & Documentation
+
+## 3.1. Principle
+The scheduling principle is mainly as follows:
+ - First, crawls a certain period of time historical query information from cloudera manager.
+ - Then, generates a memory resource allocation plan for each pool according to scheduler config, impala config and historical query information.
+ - Finally, executes the memory resource allocation plan by modifying the impala config through cloudera manager.
+
+## 3.2. Default scheduling strategy (priority schedule)
+ - [code](./scheduler/priority_schedule.py)
+ - [doc](./priority_schedule.md)
+
+## 3.3. You can implement your specific scheduling strategy
+  - [schedule strategy interface](./scheduler/base_schedule.py)
+  - [example schedule strategy](./scheduler/example_schedule.py)
+  - edit [the config file](./conf/scheduler.yml)
+   - edit config item: `schedule_module_name: 'scheduler'`
+   - edit config item: `schedule_py_name: 'example_schedule'`
+   - edit config item: `schedule_class_name: 'DoNothing1Schedule'` or `schedule_class_name: 'DoNothing2Schedule'`
+
+## 3.4. Send schedule report when scheduling
+ - edit [the config file](./conf/scheduler.yml)
+  - edit config items about `email`
+  - edit config item: `enable_schedule_report: true`
+ - schedule report example:
+   ![image](./resources/schedule_report_example.png)
+
+
+## 3.5. Utils
+ - backup impala config: `./bin/scheduler_utils.sh backup`
+ - rollback impala config: `./bin/scheduler_utils.sh rollback`
+ - check [the scheduler config file](./conf/scheduler.yml): `./bin/scheduler_utils.sh check`
+
+# 4. Communication
+  impala-toolbox-help@gridsum.com
+
+# 5. License
+IPM-Scheduler is [licensed under the Apache License 2.0.](./LICENSE)
+
+
+
 # impala内存预测
 impala内存预测项目是基于历史的impala sql执行消耗内存上限，来预测当前sql将要消耗的内存上限，用来作为sql查询的memory_limit参数  
 impala版本：cdh5.12.1 
