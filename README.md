@@ -19,15 +19,24 @@ python3 -m pip install -r depend_pip3
 
 ## 2.3. [Edit settings of IML-Predictor](./settings_explanation.md)
 
-## 2.4. Start/Stop IML-predictor server  
-fex is the scala application for collecting impala queries and their executing info, package and upload to  
-spark node
+## 2.4. Start/Stop
+fex is the scala application for collecting impala queries and their executing info, package and upload to spark node
 ```
 cd fex
 mvn clean package
 cd target
 mv feature-engineering-1.0-SNAPSHOT-jar-with-dependencies.jar feature-engineering.jar
 scp feature-engineering.jar username@remoteip:/home/username
+```
+generate a shell script for running spark task and upload to spark node
+```
+python generate_spark_submit.py
+scp spark.sh username@remoteip:/home/username
+```
+login remote server to create the directory for holding feature data
+```
+ssh username@remoteip
+hadoop fs -mkdir iml-predictor/feature
 ```
 
 # 3. Tutorials & Documentation
