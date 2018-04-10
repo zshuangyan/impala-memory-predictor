@@ -19,9 +19,16 @@ python3 -m pip install -r depend_pip3
 
 ## 2.3. [Edit settings of IML-Predictor](./settings_explanation.md)
 
-## 2.4. Start/Stop scheduler daemon
- - start daemon: `./bin/scheduler_daemon.sh start`
- - stop daemon: `./bin/scheduler_daemon.sh stop`
+## 2.4. Start/Stop IML-predictor server  
+fex is the scala application for collecting impala queries and their executing info, package and upload to  
+spark node
+```
+cd fex
+mvn clean package
+cd target
+mv feature-engineering-1.0-SNAPSHOT-jar-with-dependencies.jar feature-engineering.jar
+scp feature-engineering.jar username@remoteip:/home/username
+```
 
 # 3. Tutorials & Documentation
 
