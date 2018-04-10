@@ -20,6 +20,11 @@ IML-Predictor is a web application, which need a port number
 - User: Your Impala Username
 - Version: Imapala version
 
+## memory/log_settings.py
+you can modify format of formatters, level of handlers and handlers of loggers  
+or leave them as they are. what matters most are handlers' filenames, you must
+create log directory before start running IML-Predictor application.
+
 ## memory/model/settings.py
 
 #### MODEL_DIR
