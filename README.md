@@ -17,7 +17,7 @@ sudo apt-get -y install --no-install-recommends \`cat depend_ubuntu\`
 python3 -m pip install -r depend_pip3
 ```
 
-## 2.3. [Edit settings of IML-Predictor](./settins_explanation.md)
+## 2.3. [Edit settings of IML-Predictor](./settings_explanation.md)
 
 ## 2.4. Start/Stop scheduler daemon
  - start daemon: `./bin/scheduler_daemon.sh start`
