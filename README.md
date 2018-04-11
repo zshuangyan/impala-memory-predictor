@@ -54,7 +54,7 @@ If your local server can not run spark application, set memory/model/settings.py
 have execute spark.sh shell script on spark node before building Models.
 
 ```
-Post http://ip:port/{vn}/impala/memory/model_build  
+Post http://ip:port/v1/impala/memory/model_build  
 ```
 
 Parameters(json format)  
@@ -80,7 +80,7 @@ Status: 200 OK
 
 ## 3.2. Check Model Building Status
 ```
-Get http://ip:port/{vn}/impala/memory/model_status  
+Get http://ip:port/v1/impala/memory/model_status  
 ```
 ###### If Running, Response:
 ```
@@ -100,7 +100,7 @@ Status: 200 OK
 ## 3.3. Predict Impala Query Memory limit
 
 ```
-Post http://ip:port/{vn}/impala/memory/predict  
+Post http://ip:port/v1/impala/memory/predict  
 ```
 
 Parameters(json format)  
