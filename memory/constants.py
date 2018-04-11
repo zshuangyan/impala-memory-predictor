@@ -1,5 +1,7 @@
 from enum import IntEnum
 
+DATE_FORMAT = "%Y%m%d"
+
 
 class ModelStatus(IntEnum):
     def __new__(cls, value, phrase):

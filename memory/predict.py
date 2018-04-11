@@ -1,5 +1,5 @@
 from .model.util import label_to_mem
-from .model.constants import MODEL_GROUP
+from .model.settings import MODEL_GROUP
 
 
 def get_model_name(pool):

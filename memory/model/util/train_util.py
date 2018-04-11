@@ -7,8 +7,8 @@ from sklearn.linear_model import LogisticRegression
 from sklearn.ensemble import RandomForestClassifier, AdaBoostClassifier
 from sklearn.preprocessing import MinMaxScaler
 from sklearn.model_selection import GridSearchCV
-from .. import constants
-from ..constants import FeatureColumns
+from ..constants import *
+from ..settings import *
 
 
 __all__ = ["clean_columns", "mem_to_label", "label_to_mem",
@@ -58,11 +58,11 @@ def get_best_classifier(data_set, split_group, check_ratio=True):
     best_classifier = None
     for split in split_group:
         temp_set = data_set.copy()
-        temp_set[constants.LABEL] = temp_set[FeatureColumns.USE_MEM].apply(
+        temp_set[LABEL] = temp_set[FeatureColumns.USE_MEM].apply(
             mem_to_label, args=(split,))
 
         # according to sklearn, each class at least three sample
-        label_counts = temp_set[constants.LABEL].value_counts()
+        label_counts = temp_set[LABEL].value_counts()
         if label_counts.min() < 3:
             continue
 
@@ -72,7 +72,7 @@ def get_best_classifier(data_set, split_group, check_ratio=True):
             if not 0.001 < label_counts.min() / label_counts.sum() < 0.1:
                 continue
         score = cross_val_score(model, temp_set[FeatureColumns.FEATURES],
-                                temp_set[constants.LABEL]).mean()
+                                temp_set[LABEL]).mean()
         if best_score < score:
             best_score = score
             best_classifier = split
@@ -106,7 +106,7 @@ def get_accuracy(eval_set):
     if not count:
         return 0, 0, 1
     err_set = eval_set[eval_set[FeatureColumns.USE_MEM] >
-                       eval_set[constants.PREDICT_MEM]]
+                       eval_set[PREDICT_MEM]]
     err_count = np.shape(err_set)[0]
     accuracy = 1 - err_count / count
     return count, err_count, accuracy
@@ -120,7 +120,7 @@ def get_best_model(X ,y):
             'param_grid': {
                 'n_estimators': [10, 15, 20],
                 'criterion': ['gini', 'entropy'],
-                'max_features': [constants.FEATURE_NUM+n for n in [-4, -2, 0]],
+                'max_features': [FEATURE_NUM+n for n in [-4, -2, 0]],
                 'max_depth': [10, 15],
                 'bootstrap': [True],
                 'warm_start': [True],

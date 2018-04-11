@@ -10,8 +10,7 @@ import logging
 from .base_handler import BaseHandler
 from .error import ParameterError, ErrorCode
 from .response import ModelBuildResponse, ModelStatusResponse
-from .settings import DATE_FORMAT
-from .constants import ModelStatus
+from .constants import ModelStatus, DATE_FORMAT
 from .model.task import Task
 from .model.settings import MODEL_DIR
 
