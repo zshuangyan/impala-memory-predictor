@@ -126,4 +126,4 @@ Status: 500 Internal_server_error
   impala-toolbox-help@gridsum.com
 
 # 5. License
-IPM-Scheduler is [licensed under the Apache License 2.0.](./LICENSE)
+IML-Predictor is [licensed under the Apache License 2.0.](./LICENSE)
