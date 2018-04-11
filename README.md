@@ -1,6 +1,7 @@
 # 1. Introduction
-IML-Predictor is a tool for predicting impala query memory limit based on Supervisored learning. We collect certain amount of impala queries and their  
-details as samples,  extract features and label them as data for trainning models, which is used to predict memory for new comming impala queries.  
+IML-Predictor is a tool for predicting impala query memory limit based on Supervisored learning. We collect certain   
+amount of impala queries and their details as samples,  extract features and label them as data for trainning models,  
+which is used to predict memory for new comming impala queries.  
 
 # 2. Installation
 ## 2.1. Dependencies
@@ -50,8 +51,8 @@ python -m memory.server
 # 3. Tutorials & Documentation
 
 ## 3.1. Building Models
-If your local server can not run spark application, set memory/model/settings.py SparkSubmit.LOCAL=False and make sure you  
-have execute spark.sh shell script on spark node before building Models.
+If your local server can not run spark application, set memory/model/settings.py SparkSubmit.LOCAL=False   
+and make sure you have execute spark.sh shell script on spark node before building Models.
 
 ```
 Post http://ip:port/v1/impala/memory/model_build  
