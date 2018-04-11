@@ -1,4 +1,4 @@
-# 1. Brief
+# 1. Introduction
 IML-Predictor is a tool for predicting impala query memory limit based on Supervisored learning. We collect certain amount of impala queries and their details as samples,  
 extract features and label them as data for trainning models, which is used to predict memory for new comming impala queries.  
 
