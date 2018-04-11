@@ -5,8 +5,8 @@ details as samples,  extract features and label them as data for trainning model
 # 2. Installation
 ## 2.1. Dependencies
  - Impala: 2.9.0-cdh5.12.1 or 2.5.0-cdh5.7.2
- - python3
- - scala
+ - Python3
+ - Scala
 
 ## 2.2. Install
 ```
