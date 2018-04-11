@@ -24,6 +24,9 @@ python3 -m pip install -r depend_pip3
 ## 2.3. [Edit settings of IML-Predictor](./settings_explanation.md)
 
 ## 2.4. Start/Stop
+IML-Predictor is depend on impala-toolbox/data-divertor, which collects queries' details from Cloudera Manager API.  
+you need to deploy data-divertor in your hadoop cluster and keep it running.
+
 features is the scala application for collecting Impala queries and their details, package and upload to spark node
 ```
 cd features
@@ -55,9 +58,6 @@ python -m memory.server
 # 3. Tutorials & Documentation
 
 ## 3.1. Building Models
-IML-Predictor is depend on impala-toolbox/data-divertor, which collects queries' details from Cloudera Manager API.  
-you need to deploy data-divertor in your hadoop cluster and keep it running.
-
 If your local server can not run spark application, set memory/model/settings.py SparkSubmit.LOCAL=False   
 and make sure you have execute spark.sh shell script on spark node before building Models.
 
