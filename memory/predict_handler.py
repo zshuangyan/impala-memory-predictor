@@ -34,32 +34,6 @@ MEMORY_PREDICT = {
 class MemoryPredictHandler(BaseHandler):
     executor = ThreadPoolExecutor()
 
-    """
-    @api {post} /impala/memory/predict 预测内存
-    @apiName MemoryPredict
-    @apiDescription SQL查询内存限制预测
-    @apiParam {string} sql 待预测的sql
-    @apiParam {string} pool 执行查询的池子
-    @apiParamExample Example Usage:
-        endpoint http://gdpquerycoordinator.internal.gridsumdissector.com/v1/impala/memory/predict
-
-        body:
-            {
-                "sql": "select memory_per_node_peak from impala_query_info",
-                "pool" : "Prophet",
-            }
-    @apiSuccess {int} memory_limit 预测出的内存大小
-    @apiSuccess {int} error_code 错误码
-    @apiSuccessExample {json} Success-Response
-        HTTP/1.1 200
-        {
-            "memory_limit": 5000
-            "error_code": 0
-        }
-
-    @apiError {string} message 错误信息
-    @apiError {int} error_code 错误码
-    """
     @gen.coroutine
     @json_validate(MEMORY_PREDICT, ErrorCode.PARAMETER_ERROR)
     def post(self):

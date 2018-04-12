@@ -50,31 +50,6 @@ class ModelBuildHandler(ModelBaseHandler):
         except (KeyError, ValueError, TypeError) as err:
             raise ParameterError(str(err))
 
-    """
-    @api {post} /impala/memory/model_build 模型构建
-    @apiName MemoryModel
-    @apiDescription 构建内存预测的模型
-    @apiParam {string} start_day 提取特征开始日期
-    @apiParam {string} end_day 提取特征结束日期
-    @apiParam {bool} [generate_feature] 是否生成特征文件，可选参数
-    @apiParam {bool} [generate_report] 是否生成交叉验证结果，可选参数
-    @apiParamExample Example Usage:
-        endpoint http://gdpquerycoordinator.internal.gridsumdissector.com/v1/impala/memory/model
-
-        body:
-            {
-                "start_day": "20180101",
-                "end_day" : "20180121"
-            }
-    @apiSuccess {int} message 是否开始训练的信息
-    @apiSuccess {int} error_code 若成功开始训练，则error_code=0，否则error_code=6
-    @apiSuccessExample {json} Success-Response
-        HTTP/1.1 200
-        {
-            "message": "Start building models"
-            "error_code": 0
-        }
-    """
     @gen.coroutine
     def post(self):
         if self.model_status == ModelStatus.RUNNING:
