@@ -3,7 +3,7 @@ from .model.settings import MODEL_GROUP
 
 
 def get_model_name(pool):
-    """get model suits current specified pool.
+    """get model suits specified pool.
     :param pool: pool name, specified by post params
 
     """

@@ -40,15 +40,16 @@ class MemoryPredictHandler(BaseHandler):
         sql = self.data.get('sql')
         db = self.data.get('db')
         pool = self.data.get('pool', 'default')
-        pool = "root." + pool if not pool.startswith("root") else pool
+        pool = "root." + pool if not pool.startswith("root") and \
+               pool != "default" else pool
         try:
             explain_result = yield self.get_explain_result(db, sql) 
             features = get_features(explain_result, ImpalaConstants.VERSION)
             model_name = get_model_name(pool)
             model = self.application.models.get(model_name)
             if not model:
-                logging.error("Model %s not exists" % model)
-                raise ModelFileNotFoundError("Model %s not exists" % model)
+                logging.error("Model %s not exists" % model_name)
+                raise ModelFileNotFoundError("Model %s not exists" % model_name)
             result = predict(model, features)
         except MemError as err:
             self.send_error(status_code=err.status_code,
