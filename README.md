@@ -142,6 +142,8 @@ Parameters(json format)
 | 3 | IMPALA_QUERY_ERROR |
 | 4 | NetWorkError |
 | 5 | MODEL_FILE_NOT_FOUND_ERROR |
+| 6 | UNKNOWN_ERROR |
+
 
 # 4. Communication
   impala-toolbox-help@gridsum.com
