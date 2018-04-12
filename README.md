@@ -5,12 +5,12 @@ which are used to predict memory for new comming impala queries.
 
 # 2. Installation
 ## 2.1. Dependencies
-System dependencies: 
+#### System dependencies: 
  - Impala(2.9.0-cdh5.12.1 or 2.5.0-cdh5.7.2)
  - Python(>=3.5)
  - Scala(>=2.10.1)
 
-Project dependencies:
+#### Project dependencies:
  - impala-toolbox/data-divertor
 
 ## 2.2. Install
