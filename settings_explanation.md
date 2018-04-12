@@ -12,7 +12,7 @@ if NEED_CERTIFICATE=True, set PRINCIPAL to your kerberos user name
 if NEED_CERTIFICATE=False, set to ''  
 
 #### SERVER_PORT
-IML-Predictor is a web application, which need a port number
+IML-Predictor is a web application, which needs a port number
 
 #### ImpalaConstants
 - Host: Impala instance address
