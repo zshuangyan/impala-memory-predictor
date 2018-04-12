@@ -38,6 +38,7 @@ scp feature-engineering.jar username@remoteip:/home/username
 Generate a shell script for running spark task and upload to spark node
 ```
 python generate_spark_submit.py
+chmod +x spark.sh
 scp spark.sh username@remoteip:/home/username
 ```
 Login remote server to create the directory for holding feature data
