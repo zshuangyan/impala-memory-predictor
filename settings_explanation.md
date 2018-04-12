@@ -27,7 +27,7 @@ are handlers' filenames, you must create log directory before start running IML-
 ## memory/model/settings.py
 
 #### MODEL_DIR
-Use mkdir command to create a directory to save your models and put its path to MODEL_DIR  
+Use mkdir command to create a directory to hold your models and put its path to MODEL_DIR  
 
 #### FEATURE_FILE
 file to hold all the trainning data, you can leave it as it is  
