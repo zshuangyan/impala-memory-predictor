@@ -89,5 +89,5 @@ refers to pools the model should be suited to, if not set, it will suit all pool
 
 ##### For example
 if you only need one model, you can set MODEL_GROUP=[{'name': "first"}]  
-if you want to separate model by pools, then add 'pool_group' key for each model. Note that if you are
+if you want to separate model by pools, then add 'pool_group' key for each model. Note that if you are  
 not sure of all the pools in the cluster, you'd better set a default model with "pool_group" not sepecified. 
