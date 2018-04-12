@@ -21,8 +21,9 @@ IML-Predictor is a web application, which needs a port number
 - Version: Imapala version
 
 ## memory/log_settings.py
-you can modify format of formatters, level of handlers and handlers of loggers or leave them as they are. what matters most  
-are handlers' filenames, you must create log directory before start running IML-Predictor application.
+you can modify format of formatters, level of handlers and handlers of loggers or leave them as they are.  
+what matters most are handlers' filenames, you must create log directory before start running  
+IML-Predictor application.
 
 ## memory/model/settings.py
 
@@ -82,5 +83,9 @@ To improve accuray, we return the predicted memory getting from the predicted ca
 and memory boundary of the category next to it, range from [0,1]
 
 #### MODEL_GROUP
+MODEL_GROUP is a list of dicts which refer to a series of models' definition. In each dict you must  
+set key "name" with value different from other dicts, there is an optional key "pool_group" which  
+refers to pools the model should be suited to, if not set, it will suit all pools in the cluster by
+default.  
 if you only need one model, you can set MODEL_GROUP=[{'name': "first"}]  
 if you want to separate model by pools, then add 'pool_group' key for each model.
