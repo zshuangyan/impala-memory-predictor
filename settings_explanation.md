@@ -59,7 +59,7 @@ file to record cross-validation accuracy result, you can leave it as it is
 
 #### FEATURE_NUM
 how many features your models need, which should not beyond numbers of all features set in memory/model/constants.py  
-and larger than 6 according to internal mechanism  
+and less than 6 according to internal mechanism  
 
 #### COLUMNS_CLEAN_FUNC
 a dict with feature's name as key, the function you want to apply on that feature as value,
