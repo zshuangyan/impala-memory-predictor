@@ -1,5 +1,6 @@
 from enum import IntEnum
-MODEL_STATUS = "model_status"
+
+DATE_FORMAT = "%Y%m%d"
 
 
 class ModelStatus(IntEnum):

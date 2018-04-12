@@ -3,13 +3,13 @@ from http import HTTPStatus
 
 class ErrorCode:
     SUCCESS = 0
-    UNKNOWN_ERROR = -1
     PARAMETER_ERROR = 1
     IMPALA_CONNECT_ERROR = 2
     IMPALA_QUERY_ERROR = 3
     NetWorkError = 4
     MODEL_FILE_NOT_FOUND_ERROR = 5
-    FAILURE = 6
+    UNKNOWN_ERROR = 6
+    FAILURE = -1
 
 
 class MemError(Exception):

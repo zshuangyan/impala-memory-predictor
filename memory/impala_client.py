@@ -1,14 +1,14 @@
 import logging
 
 from impala.dbapi import connect
-from .settings import ImpalaConstants
+from .settings import ImpalaConstants, NEED_CERTIFICATE
 from .error import ImpalaConnectError, ImpalaQueryError
 
 
 class ImpalaWrapper:
     def __init__(self, host=ImpalaConstants.HOST, port=ImpalaConstants.PORT,
                  user=ImpalaConstants.USER, database=None, sql=None,
-                 auth_required=ImpalaConstants.AUTH_REQUIRED):
+                 auth_required=NEED_CERTIFICATE):
         self.host = host
         self.port = int(port)
         self.user = user
@@ -23,7 +23,7 @@ class ImpalaWrapper:
             auth_mechanism = 'NOSASL'
         try:
             return connect(self.host, self.port,
-                       auth_mechanism=auth_mechanism).cursor()
+                           auth_mechanism=auth_mechanism).cursor()
         except Exception as err:
             logging.error(err)
             raise ImpalaConnectError(message=str(err))

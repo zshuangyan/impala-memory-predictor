@@ -6,26 +6,26 @@ from sklearn.externals import joblib
 from datetime import datetime
 
 from .util import HDFSClient, SparkClient
-from . import settings, constants
-from .settings import HDFS, SparkSubmit
+from .constants import DATE_FORMAT
+from .settings import *
 from .train import Model
 from .error import ModelError
 
 
 def train(train_set):
-    for group in constants.MODEL_GROUP:
+    for group in MODEL_GROUP:
         m = Model(**group)
         m.train(train_set)
 
 
 def validate(validate_set):
     total_result = []
-    for group in constants.MODEL_GROUP:
-        m = joblib.load(os.path.join(settings.MODEL_DIR, group['name']))
+    for group in MODEL_GROUP:
+        m = joblib.load(os.path.join(MODEL_DIR, group['name']) + ".tmp")
         result = m.validate(validate_set)
         if result is not None:
             total_result.append(result)
-    with open(settings.RESULT_FILE, 'a') as r:
+    with open(RESULT_FILE, 'a') as r:
         pd.concat(total_result).to_csv(r, index=False)
 
 
@@ -53,8 +53,8 @@ class Task:
             SparkClient(self.start_day, self.end_day).run()
         HDFSClient.remove_temp_files()
         HDFSClient.generate_temp_files()
-        logging.info("Saving features data to %s" % settings.FEATURE_FILE)
-        with open(settings.FEATURE_FILE, 'w') as f:
+        logging.info("Saving features data to %s" % FEATURE_FILE)
+        with open(FEATURE_FILE, 'w') as f:
             pd.concat(map(pd.read_csv, glob.glob(os.path.join(
                 HDFS.LOCAL_PATH, HDFS.FILE_PATTERN)))).to_csv(f, index=False)
 
@@ -70,14 +70,13 @@ class Task:
             self.generate_feature_file()
 
         # check feature file exists
-        if not os.path.exists(settings.FEATURE_FILE):
-            raise ModelError("Feature file: %s not exists",
-                             settings.FEATURE_FILE)
+        if not os.path.exists(FEATURE_FILE):
+            raise ModelError("Feature file: %s not exists", FEATURE_FILE)
 
         # check feature file not empty
-        data_set = pd.read_csv(settings.FEATURE_FILE)
+        data_set = pd.read_csv(FEATURE_FILE)
         if data_set.empty:
-            raise ModelError("%s contains no data", settings.FEATURE_FILE)
+            raise ModelError("%s contains no data", FEATURE_FILE)
 
         # filter feature data from start_day to end_day if use old feature file
         if not generate_feature:
@@ -91,7 +90,7 @@ class Task:
 
         # if need cross_validate
         if cross_validate:
-            train_end = self.get_train_end(constants.CROSS_VALIDATE_RATIO)
+            train_end = self.get_train_end(CROSS_VALIDATE_RATIO)
             train_set = data_set[data_set['day'] <= train_end]
             validate_set = data_set[data_set['day'] > train_end]
             if train_set.empty or validate_set.empty:
@@ -100,9 +99,8 @@ class Task:
                          "Validate day:%s~%s" % (self.start_day, train_end,
                                                  train_end+1, self.end_day))
             train(train_set)
-            logging.info("Saving cross-validate result to %s" %
-                         settings.RESULT_FILE)
-            with open(settings.RESULT_FILE, 'w') as r:
+            logging.info("Saving cross-validate result to %s" % RESULT_FILE)
+            with open(RESULT_FILE, 'w') as r:
                 r.write("trainDay,validateDay\n%s~%s,%s~%s\n" %
                         (self.start_day, train_end, train_end+1, self.end_day))
             validate(validate_set)
@@ -118,7 +116,7 @@ class Task:
         then duration=timedelta(4), step=timedelta(2, 58752), then return
         20180103
         """
-        fmt = settings.DATE_FORMAT
+        fmt = DATE_FORMAT
         start_day = datetime.strptime(str(self.start_day), fmt)
         end_day = datetime.strptime(str(self.end_day), fmt)
         duration = end_day - start_day
