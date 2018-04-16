@@ -13,6 +13,7 @@ from .response import ModelBuildResponse, ModelStatusResponse
 from .constants import ModelStatus, DATE_FORMAT
 from .model.task import Task
 from .model.settings import MODEL_DIR
+from .util import ModelFactory
 
 
 def validate(date):
@@ -72,6 +73,7 @@ class ModelBuildHandler(ModelBaseHandler):
                 logging.exception(err)
                 self.model_status = ModelStatus.FAILED
             else:
+                self.application.models = ModelFactory.prepare_model()
                 self.model_status = ModelStatus.FINISHED
 
 
