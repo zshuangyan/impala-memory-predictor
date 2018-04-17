@@ -31,11 +31,6 @@ def main():
         # refresh every five days
         tornado.ioloop.PeriodicCallback(safety_certification, 1000 * 3600 * 24 * 5).start()
 
-    tornado.autoreload.start()
-
-    for model_name in os.listdir(MODEL_DIR):
-        tornado.autoreload.watch(os.path.join(MODEL_DIR, model_name))
-
     tornado.ioloop.IOLoop.current().start()
 
 
