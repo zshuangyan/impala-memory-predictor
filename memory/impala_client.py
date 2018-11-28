@@ -3,13 +3,14 @@ import logging
 from impala.dbapi import connect
 from .settings import ImpalaConstants, NEED_CERTIFICATE
 from .error import ImpalaConnectError, ImpalaQueryError
+from random import choice
 
 
 class ImpalaWrapper:
-    def __init__(self, host=ImpalaConstants.HOST, port=ImpalaConstants.PORT,
+    def __init__(self, host, port=ImpalaConstants.PORT,
                  user=ImpalaConstants.USER, database=None, sql=None,
                  auth_required=NEED_CERTIFICATE):
-        self.host = host
+        self.host = choice(ImpalaConstants.HOST)
         self.port = int(port)
         self.user = user
         self.database = database

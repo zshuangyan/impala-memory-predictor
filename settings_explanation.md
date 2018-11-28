@@ -18,7 +18,7 @@ IML-Predictor is a web application, which needs a port number
 - Host: Impala instance address
 - Port: Impala instance port
 - User: Your Impala Username
-- Version: Imapala version
+- Version: Impala version
 
 ## memory/log_settings.py
 you can modify format of formatters, level of handlers and handlers of loggers or leave them as they are.  
